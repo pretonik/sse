@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<body>
+<span>Hola Fulvia 2</span>
+<div id="chatlog"></div>
+<script type="text/javascript">
+
+var source = new EventSource("/listen");
+source.addEventListener('open', function (e) {
+    console.log('connected');
+});
+
+source.addEventListener('message', function (e) {
+    console.log(e.data);
+    //var message = JSON.parse(e.data);
+    var message = e.data;
+  
+    $('#chatlog').html( $('#chatlog').html() + '<p>'+ message + '</p>');
+}, false);
+
+source.addEventListener('error', function (e) {
+    if (e.readyState == EventSource.CLOSED) {
+        connected = false;
+        connect();
+    }
+}, false);
+
+</script>
+</body>
+</html>
